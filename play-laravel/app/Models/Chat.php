@@ -9,7 +9,7 @@ class Chat extends Model
 {
     use HasFactory;
 
-    protected $fillable = [] ;
+    protected $fillable = ['user_one_id','user_two_id'] ;
 
     public function messages()
     {
