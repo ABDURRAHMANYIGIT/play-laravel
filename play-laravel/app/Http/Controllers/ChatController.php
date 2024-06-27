@@ -45,7 +45,7 @@ class ChatController extends Controller
         $chat = Chat::findOrFail($chatId);
 
         // Get the page query parameter from the request, default to 1 if not provided
-        $page = $request->query('page', 1);
+        $page = (int) $request->query('page', 1);
 
         // Calculate the offset based on the page number and items per page (20 messages per page)
         $offset = ($page - 1) * 20;
