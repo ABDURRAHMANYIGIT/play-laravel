@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\MessageSent;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -21,6 +22,10 @@ class Message extends Model
         'sender_id' => 'integer',
         'receiver_id' => 'integer',
         'read_timestamp' => 'datetime',
+    ];
+
+    protected $dispatchesEvents = [
+        'created' => MessageSent::class,
     ];
 
     public function chat(): BelongsTo

@@ -8,6 +8,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Chat;
 use App\Events\MessageSent;
+use Illuminate\Support\Facades\Log;
 
 class MessageController extends Controller
 {
@@ -45,7 +46,7 @@ class MessageController extends Controller
         ]);
 
         // Dispatch MessageSent event
-        broadcast(new MessageSent($message))->toOthers();
+        broadcast(new MessageSent($message));
 
         // Return the newly created message as a JSON response
         return response()->json(['data' => $message], 200);

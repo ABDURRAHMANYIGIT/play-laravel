@@ -29,10 +29,26 @@ class ChatController extends Controller
             'user_two_id' => 'required|integer|exists:users,id|different:user_one_id',
         ]);
 
+        $userOneId = $request->input('user_one_id');
+        $userTwoId = $request->input('user_two_id');
+
+        // Check if the chat already exists
+        $existingChat = Chat::where(function($query) use ($userOneId, $userTwoId) {
+            $query->where('user_one_id', $userOneId)
+                  ->where('user_two_id', $userTwoId);
+        })->orWhere(function($query) use ($userOneId, $userTwoId) {
+            $query->where('user_one_id', $userTwoId)
+                  ->where('user_two_id', $userOneId);
+        })->first();
+
+        if ($existingChat) {
+            return response()->json(['message' => 'Chat already exists.'], 400);
+        }
+
         // Create a new chat
         $chat = Chat::create([
-            'user_one_id' => $request->input('user_one_id'),
-            'user_two_id' => $request->input('user_two_id'),
+            'user_one_id' => $userOneId,
+            'user_two_id' => $userTwoId,
         ]);
 
         // Return the newly created chat as a JSON response
