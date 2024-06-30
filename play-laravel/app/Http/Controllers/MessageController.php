@@ -19,7 +19,7 @@ class MessageController extends Controller
         ]);
 
         $sender_id = Auth::id();
-        $receiver_id = $request->input('receiver_id');
+        $receiver_id = (int) $request->input('receiver_id');
 
         // Find the chat where the authenticated user and receiver are participants
         $chat = Chat::where(function ($query) use ($sender_id, $receiver_id) {
@@ -41,10 +41,11 @@ class MessageController extends Controller
             'sender_id' => $sender_id,
             'receiver_id' => $receiver_id,
             'content' => $request->input('content'),
+            'read_timestamp' => null,
         ]);
 
         // Dispatch MessageSent event
-        broadcast(new MessageSent($message));
+        broadcast(new MessageSent($message))->toOthers();
 
         // Return the newly created message as a JSON response
         return response()->json(['data' => $message], 200);

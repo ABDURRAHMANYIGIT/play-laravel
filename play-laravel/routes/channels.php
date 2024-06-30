@@ -8,9 +8,10 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
 });
 
 Broadcast::channel('chat_{chatId}', function ($user, $chatId) {
-    return Chat::where(function ($query) use ($user) {
-        $query->where('user_one_id', $user->id)
-              ->orWhere('user_two_id', $user->id);
-    })->where('id', $chatId)->exists();
+    return true;
+    // Chat::where(function ($query) use ($user) {
+    //     $query->where('user_one_id', $user->id)
+    //           ->orWhere('user_two_id', $user->id);
+    // })->where('id', $chatId)->exists();
 });
 
