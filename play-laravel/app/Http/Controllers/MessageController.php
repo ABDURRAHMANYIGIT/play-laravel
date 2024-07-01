@@ -45,9 +45,6 @@ class MessageController extends Controller
             'read_timestamp' => null,
         ]);
 
-        // Dispatch MessageSent event
-        broadcast(new MessageSent($message));
-
         // Return the newly created message as a JSON response
         return response()->json(['data' => $message], 200);
     }
