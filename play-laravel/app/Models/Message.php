@@ -24,10 +24,6 @@ class Message extends Model
         'read_timestamp' => 'datetime',
     ];
 
-    protected $dispatchesEvents = [
-        'created' => MessageSent::class,
-    ];
-
     public function chat(): BelongsTo
     {
         return $this->belongsTo(Chat::class);

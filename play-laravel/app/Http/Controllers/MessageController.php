@@ -45,6 +45,8 @@ class MessageController extends Controller
             'read_timestamp' => null,
         ]);
 
+        broadcast(new MessageSent($message))->toOthers();
+
         // Return the newly created message as a JSON response
         return response()->json(['data' => $message], 200);
     }
